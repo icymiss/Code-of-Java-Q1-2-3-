@@ -1,0 +1,63 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+public class Process {
+    static Scanner keyboard = new Scanner(System.in);
+    static int input;
+    static int inputPass;
+    public static void main(String[] args) {
+        inputPass = exception();
+        matchToWords(inputPass,digitsCheck(inputPass));
+    }
+    public static int exception() {
+        Boolean inputCorrect;
+        do {
+            inputCorrect = true;
+            try {
+                System.out.println("Please input a number from 0-100");
+                input = keyboard.nextInt();
+                if (input < 0 || input > 100) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            catch (InputMismatchException ime) {
+                System.out.println("Integer only");
+                inputCorrect = false;
+                keyboard.next();
+            }
+            catch (IllegalArgumentException iae) {
+                System.out.println("Out of the range");
+                inputCorrect = false;
+            }
+        }while (inputCorrect == false);
+        return input;
+    }
+    public static int digitsCheck(int input){
+        String inputWithinRange = Integer.toString(input);
+        int length =inputWithinRange.length();
+        return length;
+    }
+    public static void matchToWords(int input, int digit){
+        String[] digits = {"zero", "one","two","three","four","five","six","seven","eight","nine"};
+        String[] tens_digitSmallerThan20 = {"ten","eleven",
+                "twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"};
+        String[] tens_digit = {"","",
+                "twenty-","thirty-","forty-","fifty-","sixty-","seventy-","eighty-","ninety-"};
+        String[] hundreds_digit = {"","one",
+                "two","thirty-","forty-","fifty-","sixty-","seventy-","eighty-","ninety-"};
+        if(input==20){
+            System.out.println("20 is twenty");
+        }
+        else if (digit == 1){
+            System.out.printf("%s is %s",input,digits[input]);
+        }
+        else if (digit == 2 && input<20){
+            System.out.printf("%s is %s",input,tens_digitSmallerThan20[input%10]);
+        }
+        else if (digit == 2 && input>=20){
+            System.out.printf("%s is %s",input,tens_digit[input/10]+digits[input%10]);
+        }
+        else if (digit == 3){
+            System.out.printf("%s is %s-hundred",input,hundreds_digit[input/100]);
+        }
+    }
+}
